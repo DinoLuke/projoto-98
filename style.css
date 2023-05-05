@@ -1,33 +1,19 @@
-body
+#start-btn
 {
-  color: white;
-  background: #73ff00;
+    width: 40%;
+} 
+#camera
+{
+    width:360px;
+    height: 250px;
+    border:1px solid grey;
 }
-span
+#logo_img
 {
-  font-size: 30px;
+    width: 150px;
+    border-radius: 100px;
 }
-#camera , #result
+#textbox
 {
-  border: 2px dashed black;
-  width: 350px;
-  height: 300px; 
-}
-#resultEmotionName ,#resultEmotionName2 
-{
-  color: black;
-}
-.emotionName
-{
-  font-size: 40px;
-}
-.emoji
-{
-  font-size:48px;
-}
-.heading
-{
-  font-size: 18px;
-  border-radius: 10px;
-  letter-spacing: 10px;
+    width: 300px;
 }

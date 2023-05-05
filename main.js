@@ -1,71 +1,115 @@
+var SpeechRecognition = window.webkitSpeechRecognition;
+var content;
 
-prediction1 = " ";
-prediction2 = " ";
-
-Webcam.set({
-Width:350,
-height:300,
-ImageFormat : 'png',
-pngQuality:90
-});
-
-camera = document.getElementById("camera");
-
-Webcam.attach('#camera');
+var recognition = new SpeechRecognition();
 
 
-function takeSnapShot()
+function start()
 {
-Webcam.snap(function(data_uri) {
-document.getElementById("result").innerHTML="<img id='captured_image' src='"+data_uri+"'/>";
-});
-}
-console.log("ml5.version:", ml5.version);
-classifier = ml5.imageClassifier('https://teachablemachine.withgoogle.com/models/st6lN2gNq/model.json',modelLoaded);
 
-
-
-function modelLoaded() {
-console.log("Modelo carregado"); 
-}
-function speak() {
-var synth = window.speechSynthesis;
-var utterThis = new SpeechSynthesisUtterance(speakData1);
-synth.speak(utterThis);
+recognition.start();
 }
 
-function check()
+
+recognition.onresult = function(event) {
+
+
+console.log(event);
+
+
+var Content = event.results[0][0].transcript.toLowerCase();
+console.log(Content);
+if (Content == "selfie")
 {
-img = document.getElementById('captured_image');
-classifier.classify(img, gotResult);
-}
-
-
-function gotResult(error, results) {
-if (error ) {
-console.error(error);
-}else{
-console.log(results);
-document.getElementById("resultEmotionName").innerHTML = results[0].label;
-prediction1 = results[0].label;
-if(results[0].label == "ok")
-{
-speakData1 = "A primeira previsão é ok ";
-document.getElementById("updateEmoji").innerHTML = "&#128077";
-}
-
-if(results[0].label == "mão")
-{
-    
-speakData1 = "A primeira previsão é mão ";
-document.getElementById("updateEmoji").innerHTML = "&#9995";
-}
-
-if(results[0].label == "paz")
-{
-speakData1 = "A primeira previsão é paz ";
-document.getElementById("updateEmoji").innerHTML = "&#9996";
-}
+console.log("tirando selfie --- ");
 speak();
 }
+
+
+
+}
+function speak(){
+var synth = window.speechSynthesis;
+Webcam.attach(camera);
+
+speakData = "tirando sua selfie em 5 segundos";
+
+
+var utterThis = new SpeechSynthesisUtterance(speakData);
+
+
+synth.speak(utterThis);
+setTimeout(function()
+{
+imgId = "selfie1";
+takeSelfie();
+speakData = "tirando sua selfie em 10 segundos";
+
+
+var utterThis = new SpeechSynthesisUtterance(speakData);
+
+
+synth.speak(utterThis);
+},5000);
+setTimeout(function()
+{
+imgId = "selfie2";
+takeSelfie();
+speakData = "tirando sua selfie em 15 segundos";
+
+
+var utterThis = new SpeechSynthesisUtterance(speakData);
+
+
+synth.speak(utterThis);
+},10000);
+setTimeout(function()
+{
+imgId = "selfie3";
+takeSelfie();
+
+},15000);
+}
+camera = document.getElementById("camera");
+Webcam.set({
+    width:360,
+    height:250,
+    image_format : 'png',
+    png_quality:90
+});
+
+
+function takeSelfie()
+{
+
+
+Webcam.snap(function(data_uri) {
+document.getElementById("result").innerHTML = '<img id="selfieImage" src="'+data_uri+'"/>';
+
+});
+
+}
+
+function save()
+{
+link = document.getElementById("link");
+image = document.getElementById("selfie_image").scr;
+link.href = image;
+link.click();
+}
+function takeSelfie()
+{
+    console.log(imgId);
+    
+    Webcam.snap(function(data_uri) {
+        if(imgId=="selfie1"){
+        document.getElementById("result1").innerHTML = '<img id="selfie1" src="'+data_uri+'"/>';
+        }
+        if(imgId=="selfie2"){
+            document.getElementById("result2").innerHTML = '<img id="selfie2" src="'+data_uri+'"/>';
+        }
+        if(imgId=="selfie3"){
+            document.getElementById("result3").innerHTML = '<img id="selfie3" src="'+data_uri+'"/>';
+        }
+    });
 }
